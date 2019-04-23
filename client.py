@@ -3,7 +3,9 @@ import signal
 import sys
 
 def signal_handler(sig, frame):
-        print('Client Terminating...')
+        sock.sendall(str(-1).encode())
+        sock.shutdown(socket.SHUT_RDWR)
+        sock.close()
         sys.exit(0)
 
 signal.signal(signal.SIGINT, signal_handler)
