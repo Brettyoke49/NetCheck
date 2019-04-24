@@ -7,6 +7,7 @@ def stats_and_exit():
   end = datetime.datetime.now()
   total = end - start
   print("Finished after: ", total.total_seconds())
+  print("Number of router hops between server and client: ", length)
   print("Total normal transmissions: ", switchTrans)
   print("Total distressed transmissions: ", prevTransmission)
 
@@ -35,6 +36,10 @@ if(len(sys.argv) >= 2) :
 
 prevTransmission = -1;
 
+subCmd = "traceroute " + HOST + " | wc -l"
+routeInfo = subprocess.run(['traceroute', HOST], stdout=subprocess.PIPE) # Get initial traceroute so future calls are quicker
+length = len((routeInfo.stdout.decode('utf-8')).split('\n')) - 2
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.bind((HOST, int(PORT)))
     sock.listen()
@@ -42,12 +47,12 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     with conn:
         print('Connected to: ', addr)
         print("If you must end the program early, use Ctrl-C on the CLIENT program. NOT the server (this)!")
+
+
         start = datetime.datetime.now()
 
         while True:
           transmission = conn.recv(1024).decode()
-          if(int(transmission) % 10000 == 1) :
-            routeInfo = subprocess.run(["traceroute", HOST]) # Make this into a predefined string
 
           if(int(transmission) == 0) : # When the client switches to DoS mode
             switchTime = datetime.datetime.now()
