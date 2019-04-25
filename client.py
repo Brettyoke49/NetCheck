@@ -2,6 +2,7 @@ import socket
 import signal
 import sys
 import datetime
+import os
 
 def signal_handler(sig, frame):
         sock.sendall(str(-1).encode())
@@ -35,6 +36,8 @@ transmission = str(0);
 intervals = 1;
 DoSing = False;
 
+cmd = "python3 UDPflood.py " + HOST + " " + str(PORT) + " " + str(DosDuration) + " &"
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
     sock.connect((HOST, int(PORT)))
     print("If you must end the program early, use Ctrl-C on the CLIENT (this) program. NOT the server!")
@@ -58,12 +61,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
               DoSing = True;
               intervals = 1
               transmission = str(0)
+              os.system(cmd)
               start = datetime.datetime.now()
           else :
             print(intervals * 10, "%... ", end = "", sep = '')
             sys.stdout.flush()
             intervals += 1
             start = datetime.datetime.now()
-
-
-print('Received', repr(data))

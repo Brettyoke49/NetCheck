@@ -20,6 +20,8 @@ def stats_and_exit():
   print("\nNormal transmissions per second: ", int(normTPS))
   print("Distressed transmissions per second: ", int(dosTPS))
 
+  print("Network ran at ", round((int(dosTPS) / int(normTPS) * 100), 3), "% capacity under DoS conditions.", sep = '')
+
 
 
 HOST = '127.0.0.1'  # Default IP to connect to
